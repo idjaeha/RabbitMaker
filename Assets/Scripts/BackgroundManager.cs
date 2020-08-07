@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class BackgroundManager : MonoBehaviour
 {
-    private readonly string IMAGE_PATH = "Images/{0}";
+    private readonly string IMAGE_PATH = "Images/Backgrounds/{0}";
     void Start()
     {
-
+        ChangeBackground("RabbitRoom");
     }
     public void ChangeBackground(string imageName)
     {

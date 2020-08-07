@@ -6,11 +6,11 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject messageManagerPrefab;
+    private GameObject dialogueManagerPrefab;
     [SerializeField]
-    private GameObject backGroundManagerPrefab;
+    private GameObject backgroundManagerPrefab;
 
-    private MessageManager messageManager;
+    private DialogueManager dialogueManager;
     private BackgroundManager backgroundManager;
 
     /// <summary>
@@ -18,16 +18,16 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void InitManagers()
     {
-        messageManager = FindObjectOfType<MessageManager>();
-        if (messageManager == null)
+        dialogueManager = FindObjectOfType<DialogueManager>();
+        if (dialogueManager == null)
         {
-            messageManager = Instantiate(messageManagerPrefab, Vector3.zero, Quaternion.identity).GetComponent<MessageManager>();
+            dialogueManager = Instantiate(dialogueManagerPrefab, Vector3.zero, Quaternion.identity).GetComponent<DialogueManager>();
         }
 
         backgroundManager = FindObjectOfType<BackgroundManager>();
         if (backgroundManager == null)
         {
-            backgroundManager = Instantiate(backGroundManagerPrefab, Vector3.zero, Quaternion.identity).GetComponent<BackgroundManager>();
+            backgroundManager = Instantiate(backgroundManagerPrefab, Vector3.zero, Quaternion.identity).GetComponent<BackgroundManager>();
         }
     }
 
@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         InitManagers();
+        PostMessagesFromTextFile("Intro");
     }
 
     // Update is called once per frame
@@ -43,6 +44,7 @@ public class GameManager : MonoBehaviour
 
     }
 
+    // TODO : Text를 불러오는 것이 DialogueManager에서 이뤄지는 것이 더 옳은 방향일 수 있다. 설계가 조금 더 필요하다.
     /// <summary>
     /// fileNickName에 해당하는 메세지들을 불러와 messageManager에게 보냅니다.
     /// </summary>
@@ -51,7 +53,7 @@ public class GameManager : MonoBehaviour
     {
         TextLoader textLoader = new TextLoader();
         List<string> newMessages = textLoader.LoadText(fileNickname);
-        messageManager.GetComponent<MessageManager>().ReceiveMessages(newMessages);
+        dialogueManager.GetComponent<DialogueManager>().ReceiveMessages(newMessages);
     }
 
 
