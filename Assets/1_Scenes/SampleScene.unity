@@ -277,6 +277,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2241730511555316622, guid: 12425a5da38fab04489e2dfca053700c,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -167.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2241730511555316622, guid: 12425a5da38fab04489e2dfca053700c,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 74.73423
+      objectReference: {fileID: 0}
+    - target: {fileID: 2241730511555316622, guid: 12425a5da38fab04489e2dfca053700c,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2241730511555316622, guid: 12425a5da38fab04489e2dfca053700c,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 753.89307
+      objectReference: {fileID: 0}
     - target: {fileID: 3306846896399863280, guid: 12425a5da38fab04489e2dfca053700c,
         type: 3}
       propertyPath: m_Name
@@ -285,7 +305,7 @@ PrefabInstance:
     - target: {fileID: 3306846896399863280, guid: 12425a5da38fab04489e2dfca053700c,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8347573667644817471, guid: 12425a5da38fab04489e2dfca053700c,
         type: 3}
@@ -515,6 +535,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Cvn_Menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 3176496968821560743, guid: baad4cfba0806214c82f2f1a121f5451,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: baad4cfba0806214c82f2f1a121f5451, type: 3}
