@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PostMessages("Assets\\3_Sources\\2_Dialogue\\Intro.txt");
+        ExecuteMessage("Intro");
     }
 
     // Update is called once per frame
@@ -19,10 +19,11 @@ public class GameManager : MonoBehaviour
 
     }
 
-    void PostMessages(string filePath)
+    void ExecuteMessage(string fileNickname)
     {
+        string filePath = string.Format("Assets\\3_Sources\\2_Dialogue\\{0}.txt", fileNickname);
         TextLoader textLoader = new TextLoader();
-        List<string> newMessages = textLoader.LoadText(filePath);
+        List<string> newMessages = textLoader.LoadText(fileNickname);
         messageManager.ReceiveMessages(newMessages);
     }
 
