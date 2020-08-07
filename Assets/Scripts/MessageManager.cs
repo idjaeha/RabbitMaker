@@ -32,9 +32,11 @@ public class MessageManager : MonoBehaviour
     {
         messageIndex = 0;
         messages = newMessage;
-
     }
 
+    /// <summary>
+    /// 메세지 배열에 저장된 메세지를 순서대로 보여줍니다.
+    /// </summary>
     internal void NextMessage()
     {
         if (messages.Count > 0 && messageIndex < messages.Count)

@@ -43,3 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2515060e9d94c164c902b7a9d19337f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  messageManagerPrefab: {fileID: 3306846896399863280, guid: 12425a5da38fab04489e2dfca053700c,
+    type: 3}
+  backGroundManagerPrefab: {fileID: 5859828684428306740, guid: 8bfdee98df80fa8498325af7d428ec83,
+    type: 3}
