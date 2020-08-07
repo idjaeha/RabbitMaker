@@ -35,7 +35,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         InitManagers();
-        PostMessagesFromTextFile("Intro");
     }
 
     // Update is called once per frame
