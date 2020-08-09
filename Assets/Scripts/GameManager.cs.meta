@@ -6,7 +6,7 @@ MonoImporter:
   defaultReferences:
   - dialogueManagerPrefab: {fileID: 3306846896399863280, guid: 12425a5da38fab04489e2dfca053700c,
       type: 3}
-  - backgroundManagerPrefab: {fileID: 5859828684428306740, guid: 8bfdee98df80fa8498325af7d428ec83,
+  - backgroundPrefab: {fileID: 1781266407549475197, guid: fcd014905bf3f0347bc0ce4fdb56e5f3,
       type: 3}
   executionOrder: 0
   icon: {instanceID: 0}

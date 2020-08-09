@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,15 +8,20 @@ using UnityEngine;
 /// </summary>
 public class SceneChangingEffect
 {
-    // Start is called before the first frame update
-    void Start()
+    public IEnumerator FadeIn(GameObject sceneChangingCanvas, float changingDuration = 1.0f)
     {
+        CanvasGroup sceneChangingCanvasGroup = sceneChangingCanvas.GetComponentInChildren<CanvasGroup>();
+        float finalAlpha = 0.0f;
+        float fadeInSpeed = Mathf.Abs(sceneChangingCanvasGroup.alpha - finalAlpha) / changingDuration;
 
-    }
+        while (!Mathf.Approximately(sceneChangingCanvasGroup.alpha, finalAlpha))
+        {
+            sceneChangingCanvasGroup.alpha = Mathf.MoveTowards(sceneChangingCanvasGroup.alpha, finalAlpha, fadeInSpeed * Time.deltaTime);
+            yield return null;
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-
+        UnityEngine.GameObject.Destroy(sceneChangingCanvas);
     }
 }
+
+

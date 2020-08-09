@@ -8,10 +8,10 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject dialogueManagerPrefab;
     [SerializeField]
-    private GameObject backgroundManagerPrefab;
+    private GameObject backgroundPrefab;
 
     private DialogueManager dialogueManager;
-    private BackgroundManager backgroundManager;
+    private Background background;
 
     /// <summary>
     /// 각종 매니저가 있는지 확인한 뒤, 없다면 새로 생성하여 초기화해줍니다.
@@ -23,11 +23,10 @@ public class GameManager : MonoBehaviour
         {
             dialogueManager = Instantiate(dialogueManagerPrefab, Vector3.zero, Quaternion.identity).GetComponent<DialogueManager>();
         }
-
-        backgroundManager = FindObjectOfType<BackgroundManager>();
-        if (backgroundManager == null)
+        background = FindObjectOfType<Background>();
+        if (background == null)
         {
-            backgroundManager = Instantiate(backgroundManagerPrefab, Vector3.zero, Quaternion.identity).GetComponent<BackgroundManager>();
+            background = Instantiate(backgroundPrefab, Vector3.zero, Quaternion.identity).GetComponent<Background>();
         }
     }
 

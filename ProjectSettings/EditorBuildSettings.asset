@@ -5,7 +5,25 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+  - enabled: 0
+    path: Assets/Scenes/Test/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 0
+    path: 
+    guid: 1cac76f59ae4d214584ea2f5153e2f98
+  - enabled: 0
+    path: 
+    guid: dbb70c888138bf6458e37426f28d895a
+  - enabled: 0
+    path: 
+    guid: 95714790ca38d5649a48112ceb4c05a8
+  - enabled: 1
+    path: Assets/Scenes/Test/FadeInTestScene.unity
+    guid: a4fce735259b97848a90bcddeaa75071
+  - enabled: 1
+    path: Assets/Scenes/Test/BackgroundScene.unity
+    guid: 69028a3f12a8aad4793412dce7d27a03
+  - enabled: 1
+    path: Assets/Scenes/Test/UIScene.unity
+    guid: 8bbcf9fd1f1e01b4ea11b256b2c0d2e5
   m_configObjects: {}

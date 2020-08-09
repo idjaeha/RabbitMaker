@@ -121,17 +121,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &815435011
+--- !u!1001 &320901082
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3176496968821560738, guid: baad4cfba0806214c82f2f1a121f5451,
+    - target: {fileID: 3176496968629856442, guid: baad4cfba0806214c82f2f1a121f5451,
         type: 3}
-      propertyPath: m_Camera
-      value: 
+      propertyPath: m_RaycastTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3176496968821560739, guid: baad4cfba0806214c82f2f1a121f5451,
         type: 3}
@@ -146,7 +146,7 @@ PrefabInstance:
     - target: {fileID: 3176496968821560739, guid: baad4cfba0806214c82f2f1a121f5451,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3176496968821560739, guid: baad4cfba0806214c82f2f1a121f5451,
         type: 3}
@@ -191,22 +191,22 @@ PrefabInstance:
     - target: {fileID: 3176496968821560739, guid: baad4cfba0806214c82f2f1a121f5451,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -4.3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3176496968821560739, guid: baad4cfba0806214c82f2f1a121f5451,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3176496968821560739, guid: baad4cfba0806214c82f2f1a121f5451,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 320
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3176496968821560739, guid: baad4cfba0806214c82f2f1a121f5451,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 210
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3176496968821560739, guid: baad4cfba0806214c82f2f1a121f5451,
         type: 3}
@@ -231,12 +231,12 @@ PrefabInstance:
     - target: {fileID: 3176496968821560739, guid: baad4cfba0806214c82f2f1a121f5451,
         type: 3}
       propertyPath: m_Pivot.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3176496968821560739, guid: baad4cfba0806214c82f2f1a121f5451,
         type: 3}
       propertyPath: m_Pivot.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3176496968821560743, guid: baad4cfba0806214c82f2f1a121f5451,
         type: 3}

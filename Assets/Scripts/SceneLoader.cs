@@ -15,13 +15,6 @@ public class SceneLoader : MonoBehaviour
 
     [SerializeField]
     private GameObject sceneChangingCanvasPrefab; // Scene 전환 효과를 담당하는 Canvas prefab
-    private Dictionary<string, LoadSceneMode> loadScenes = new Dictionary<string, LoadSceneMode>();
-
-    private void InitScenes()
-    {
-        loadScenes.Add("TestScene", LoadSceneMode.Additive);
-        loadScenes.Add("WaitingScene", LoadSceneMode.Additive);
-    }
 
     void Awake()
     {
@@ -31,10 +24,10 @@ public class SceneLoader : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InitScenes();
+        StartCoroutine(LoadScenesWithFadeIn(LoadSceneMode.Additive, "UIScene", "BackgroundScene"));
     }
 
-    private IEnumerator LoadScene(string sceneName, LoadSceneMode mode)
+    private IEnumerator LoadScene(LoadSceneMode mode, string sceneName)
     {
         yield return SceneManager.LoadSceneAsync(sceneName, mode);
 
@@ -42,10 +35,15 @@ public class SceneLoader : MonoBehaviour
         SceneManager.SetActiveScene(loadedScene);
     }
 
-    private void LoadSceneWithFadeIn(string sceneName, LoadSceneMode mode)
+    private IEnumerator LoadScenesWithFadeIn(LoadSceneMode mode, params string[] sceneNames)
     {
         GameObject sceneChangingCanvas = Instantiate<GameObject>(sceneChangingCanvasPrefab);
-        CanvasGroup sceneChangingCanvasGroup = sceneChangingCanvas.GetComponentInChildren<CanvasGroup>();
 
+        foreach (var sceneName in sceneNames)
+        {
+            yield return LoadScene(mode, sceneName);
+        }
+
+        yield return StartCoroutine(sceneChangingEffect.FadeIn(sceneChangingCanvas, changingDuration));
     }
 }

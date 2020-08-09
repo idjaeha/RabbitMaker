@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BackgroundManager : MonoBehaviour
+public class Background : MonoBehaviour
 {
     private readonly string IMAGE_PATH = "Images/Backgrounds/{0}";
     void Start()
