@@ -13,6 +13,34 @@ public class GameManager : MonoBehaviour
     private DialogueManager dialogueManager;
     private Background background;
 
+    private static GameManager instance;
+
+    public static GameManager Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+
+    private void Awake()
+    {
+        InitGameManager();
+    }
+
+    private void InitGameManager()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
     /// <summary>
     /// 각종 매니저가 있는지 확인한 뒤, 없다면 새로 생성하여 초기화해줍니다.
     /// </summary>
@@ -36,13 +64,6 @@ public class GameManager : MonoBehaviour
         InitManagers();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    // TODO : Text를 불러오는 것이 DialogueManager에서 이뤄지는 것이 더 옳은 방향일 수 있다. 설계가 조금 더 필요하다.
     /// <summary>
     /// fileNickName에 해당하는 메세지들을 불러와 messageManager에게 보냅니다.
     /// </summary>

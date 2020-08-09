@@ -82,4 +82,5 @@ public class DialogueManager : MonoBehaviour
     }
 
     // TODO : Typing 효과 구현하기
+    // TODO : 대화할 때 캐릭터의 일러스트가 나오는 것 구현
 }
