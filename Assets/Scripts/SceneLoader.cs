@@ -35,6 +35,14 @@ public class SceneLoader : MonoBehaviour
         SceneManager.SetActiveScene(loadedScene);
     }
 
+    private IEnumerator LoadSceneWithFadeIn(LoadSceneMode mode, string sceneName)
+    {
+        GameObject sceneChangingCanvas = Instantiate<GameObject>(sceneChangingCanvasPrefab);
+
+        yield return LoadScene(mode, sceneName);
+        yield return StartCoroutine(sceneChangingEffect.FadeIn(sceneChangingCanvas, changingDuration));
+    }
+
     private IEnumerator LoadScenesWithFadeIn(LoadSceneMode mode, params string[] sceneNames)
     {
         GameObject sceneChangingCanvas = Instantiate<GameObject>(sceneChangingCanvasPrefab);
