@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,9 +10,12 @@ public class GameManager : MonoBehaviour
     private GameObject dialogueManagerPrefab;
     [SerializeField]
     private GameObject backgroundPrefab;
+    [SerializeField]
+    private GameObject sceneLoaderPrefab;
 
     private DialogueManager dialogueManager;
     private Background background;
+    private SceneLoader sceneLoader;
 
     private static GameManager instance;
 
@@ -20,6 +24,26 @@ public class GameManager : MonoBehaviour
         get
         {
             return instance;
+        }
+    }
+
+    private Background Background
+    {
+        get
+        {
+            // Background를 hierarchy에서 찾습니다.
+            if (background == null)
+            {
+                background = GameObject.FindGameObjectWithTag("Background")?.GetComponent<Background>();
+            }
+
+            // hierarchy에 존재하지 않는다면 새로 만듭니다.
+            if (background == null)
+            {
+                background = Instantiate<GameObject>(backgroundPrefab)?.GetComponent<Background>();
+            }
+
+            return background;
         }
     }
 
@@ -42,29 +66,6 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 각종 매니저가 있는지 확인한 뒤, 없다면 새로 생성하여 초기화해줍니다.
-    /// </summary>
-    private void InitManagers()
-    {
-        dialogueManager = FindObjectOfType<DialogueManager>();
-        if (dialogueManager == null)
-        {
-            dialogueManager = Instantiate(dialogueManagerPrefab, Vector3.zero, Quaternion.identity).GetComponent<DialogueManager>();
-        }
-        background = FindObjectOfType<Background>();
-        if (background == null)
-        {
-            background = Instantiate(backgroundPrefab, Vector3.zero, Quaternion.identity).GetComponent<Background>();
-        }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        InitManagers();
-    }
-
-    /// <summary>
     /// fileNickName에 해당하는 메세지들을 불러와 messageManager에게 보냅니다.
     /// </summary>
     /// <param name="fileNickname">텍스트 파일의 확장자를 제외한 이름</param>
@@ -73,6 +74,20 @@ public class GameManager : MonoBehaviour
         TextLoader textLoader = new TextLoader();
         List<string> newMessages = textLoader.LoadText(fileNickname);
         dialogueManager.GetComponent<DialogueManager>().ReceiveMessages(newMessages);
+    }
+
+    public void MoveScene(string sceneName)
+    {
+        if (sceneLoader == null)
+        {
+            sceneLoader = Instantiate<GameObject>(sceneLoaderPrefab).GetComponent<SceneLoader>();
+        }
+        sceneLoader.LoadSceneWithFadeIn(LoadSceneMode.Single, sceneName);
+    }
+
+    public void ChangeBackground()
+    {
+        Background.ChangeBackground("RabbitRoom");
     }
 
 

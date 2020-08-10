@@ -5,25 +5,22 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/Test/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 0
-    path: 
-    guid: 1cac76f59ae4d214584ea2f5153e2f98
-  - enabled: 0
-    path: 
-    guid: dbb70c888138bf6458e37426f28d895a
-  - enabled: 0
-    path: 
-    guid: 95714790ca38d5649a48112ceb4c05a8
   - enabled: 1
-    path: Assets/Scenes/Test/FadeInTestScene.unity
-    guid: a4fce735259b97848a90bcddeaa75071
+    path: Assets/Scenes/InitScene.unity
+    guid: 2ab22b6e203144a44830bcdb6298dbba
   - enabled: 1
-    path: Assets/Scenes/Test/BackgroundScene.unity
-    guid: 69028a3f12a8aad4793412dce7d27a03
+    path: Assets/Scenes/StartScene.unity
+    guid: 42342eb77305180428878f26370e78b0
   - enabled: 1
-    path: Assets/Scenes/Test/UIScene.unity
-    guid: 8bbcf9fd1f1e01b4ea11b256b2c0d2e5
+    path: Assets/Scenes/CreationScene.unity
+    guid: 8de98b3ec4b7dcd47a482984e6c563cf
+  - enabled: 1
+    path: Assets/Scenes/PlayingScene.unity
+    guid: 5b60a1819e2e4d643aa057b2ef41fcf5
+  - enabled: 1
+    path: Assets/Scenes/EndingScene.unity
+    guid: 15fec7d66808e0e4190046e153a5c2be
+  - enabled: 1
+    path: Assets/Scenes/EffectScene/FadeInScene.unity
+    guid: bd1347bc81dcee94d8f3604f4428c612
   m_configObjects: {}

@@ -20,7 +20,7 @@ public class Background : MonoBehaviour
         }
         else
         {
-            gameObject.GetComponent<Image>().sprite = background;
+            gameObject.GetComponent<SpriteRenderer>().sprite = background;
         }
     }
 }
