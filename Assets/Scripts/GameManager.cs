@@ -84,11 +84,4 @@ public class GameManager : MonoBehaviour
         }
         sceneLoader.LoadSceneWithFadeIn(LoadSceneMode.Single, sceneName);
     }
-
-    public void ChangeBackground()
-    {
-        Background.ChangeBackground("RabbitRoom");
-    }
-
-
 }
