@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2515060e9d94c164c902b7a9d19337f7
+guid: 9f99170989be8494195048843446cd2a
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -7,6 +7,8 @@ MonoImporter:
   - dialogueManagerPrefab: {fileID: 3306846896399863280, guid: 12425a5da38fab04489e2dfca053700c,
       type: 3}
   - backgroundPrefab: {fileID: 1781266407549475197, guid: fcd014905bf3f0347bc0ce4fdb56e5f3,
+      type: 3}
+  - sceneLoaderPrefab: {fileID: 8906695433969184928, guid: 4471d722e433cec498a5b13663cc391e,
       type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
