@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField]
     private MessageManager messageManager;
-
+ 
     // Start is called before the first frame update
     void Start()
     {
