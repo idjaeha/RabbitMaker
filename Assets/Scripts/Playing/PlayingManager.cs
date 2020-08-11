@@ -11,22 +11,35 @@ public class PlayingManager : MonoBehaviour
     private GameObject schedulerPrefab;
     private Scheduler scheduler;
 
+    [SerializeField]
+    private GameObject scheduleHandlerPrefab;
+    private ScheduleHandler scheduleHandler;
+
+
     private void Awake()
     {
         currentScheduleIndex = 0;
         scheduler = Instantiate<GameObject>(schedulerPrefab).GetComponent<Scheduler>();
-
+        scheduleHandler = Instantiate<GameObject>(scheduleHandlerPrefab).GetComponent<ScheduleHandler>();
     }
 
     private void Start()
     {
-        scheduler.Add(currentScheduleIndex, "School");
-        StartSchedule();
+        scheduler.Add(0, "School");
+        scheduler.Add(1, "School");
     }
 
     public void StartSchedule()
     {
-        scheduler.BeginSchedule(currentScheduleIndex);
+        GameObject scheduleObject = scheduler.GetSchedule(currentScheduleIndex);
+        if (scheduleObject != null)
+        {
+            StartCoroutine(scheduleHandler.Handle(scheduleObject));
+        }
+        else
+        {
+            Debug.Log("스케줄이 비었습니다.");
+        }
     }
 
     public static void PlusCurrentScheduleIndex()
@@ -35,10 +48,5 @@ public class PlayingManager : MonoBehaviour
         {
             currentScheduleIndex++;
         }
-    }
-
-    public void Show()
-    {
-        Debug.Log(scheduler.GetSchedule(0));
     }
 }

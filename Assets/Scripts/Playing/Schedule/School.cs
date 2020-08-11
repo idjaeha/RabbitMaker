@@ -49,6 +49,7 @@ public class School : MonoBehaviour, ISchedule
         Debug.Log("End School");
         GameManager.Instance.ChangeBackground("RabbitRoom");
         state = ScheduleState.Finish;
+        PlayingManager.PlusCurrentScheduleIndex();
         gameObject.SetActive(false);
     }
 

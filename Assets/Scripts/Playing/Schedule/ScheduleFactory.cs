@@ -21,13 +21,20 @@ public class ScheduleFactory : MonoBehaviour
         foreach (GameObject schedule in schedulePrefabs)
         {
             string name = schedule.GetComponent<ISchedule>().ID;
-            Debug.Log(name);
             scheduleDictionary.Add(name, schedule);
         }
     }
 
     public GameObject GetInstance(string name)
     {
-        return scheduleDictionary[name];
+        if (scheduleDictionary.ContainsKey(name))
+        {
+            return scheduleDictionary[name];
+        }
+        else
+        {
+            Debug.Log($"{name}에 해당하는 스케줄이 존재하지 않습니다.");
+            return null;
+        }
     }
 }

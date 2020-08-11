@@ -14,9 +14,6 @@ public class Scheduler : MonoBehaviour
     private GameObject scheduleFactoryPrefab;
     private ScheduleFactory scheduleFactory;
 
-    [SerializeField]
-    private GameObject scheduleHandlerPrefab;
-    private ScheduleHandler scheduleHandler;
 
     public GameObject[] ScheduleObjects
     {
@@ -28,7 +25,6 @@ public class Scheduler : MonoBehaviour
 
     public void Awake()
     {
-        scheduleHandler = Instantiate<GameObject>(scheduleHandlerPrefab).GetComponent<ScheduleHandler>();
         scheduleFactory = Instantiate<GameObject>(scheduleFactoryPrefab).GetComponent<ScheduleFactory>();
         scheduleObjects = new GameObject[TOTAL_SCHEDULE_NUM];
     }
@@ -50,10 +46,5 @@ public class Scheduler : MonoBehaviour
     public GameObject GetSchedule(int index)
     {
         return scheduleObjects[index];
-    }
-
-    public void BeginSchedule(int index)
-    {
-        StartCoroutine(scheduleHandler.Handle(scheduleObjects[index]));
     }
 }
