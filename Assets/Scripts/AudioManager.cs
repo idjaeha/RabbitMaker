@@ -15,19 +15,19 @@ public class AudioManager : MonoBehaviour
     [SerializeField] Sound[] Audios; //소리모음
 
     [Header("오디오 플레이어")]
-    [SerializeField] AudioSource audioSorece;
+    [SerializeField] AudioSource audioSource;
     // Start is called before the first frame update
 
 
     void Start()
     {
-        audioSorece.clip = Audios[0].clip;
+        audioSource.clip = Audios[0].clip;
     }
     private void Update()
     {
         if ((Input.GetKeyDown(KeyCode.S)))
         {
-            audioSorece.Play();
+            audioSource.Play();
         }
         if ((Input.GetKeyDown(KeyCode.M)))
         {
@@ -39,7 +39,7 @@ public class AudioManager : MonoBehaviour
     //오디오 플레이
     public void audioPlay()
     {
-        audioSorece.Play();
+        audioSource.Play();
     }
 
 
@@ -47,13 +47,13 @@ public class AudioManager : MonoBehaviour
     public void audioMute()
     {
 
-        if (audioSorece.mute == false)
+        if (audioSource.mute == false)
         {
-            audioSorece.mute = true;
+            audioSource.mute = true;
         }
         else
         {
-            audioSorece.mute = false;
+            audioSource.mute = false;
         }
 
     }
@@ -61,6 +61,6 @@ public class AudioManager : MonoBehaviour
     //오디오 멈춤
     public void audioStop()
     {
-        audioSorece.Stop();
+        audioSource.Stop();
     }
 }
