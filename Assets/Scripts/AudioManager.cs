@@ -15,9 +15,13 @@ public class AudioManager : MonoBehaviour
     [SerializeField] Sound[] Audios; //소리모음
 
     [Header("오디오 플레이어")]
-    [SerializeField] AudioSource audioSource;
+    AudioSource audioSource;
     // Start is called before the first frame update
 
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     void Start()
     {
