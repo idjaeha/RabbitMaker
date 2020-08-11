@@ -84,4 +84,9 @@ public class GameManager : MonoBehaviour
         }
         sceneLoader.LoadSceneWithFadeIn(LoadSceneMode.Single, sceneName);
     }
+
+    public void ChangeBackground(string backgroundName)
+    {
+        Background.ChangeBackground(backgroundName);
+    }
 }

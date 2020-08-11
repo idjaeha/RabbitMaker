@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Sound {
+public class Sound
+{
     public string soundName;
     public AudioClip clip;
 }
@@ -24,12 +25,14 @@ public class AudioManager : MonoBehaviour
     }
     private void Update()
     {
-        if ((Input.GetKeyDown(KeyCode.S))){
+        if ((Input.GetKeyDown(KeyCode.S)))
+        {
             audioSorece.Play();
         }
         if ((Input.GetKeyDown(KeyCode.M)))
         {
-            if (audioSorece.mute == false) {
+            if (audioSorece.mute == false)
+            {
                 audioSorece.mute = true;
             }
             else
@@ -37,17 +40,19 @@ public class AudioManager : MonoBehaviour
                 audioSorece.mute = false;
             }
 
-            }
+        }
 
     }
 
-  
+
     public void audioMute()
     {
         //음소거
-        if (audioSorece.mute == false) { 
+        if (audioSorece.mute == false)
+        {
             audioSorece.mute = true;
-        } else
+        }
+        else
         {
             audioSorece.mute = false;
         }
