@@ -31,23 +31,22 @@ public class AudioManager : MonoBehaviour
         }
         if ((Input.GetKeyDown(KeyCode.M)))
         {
-            if (audioSorece.mute == false)
-            {
-                audioSorece.mute = true;
-            }
-            else
-            {
-                audioSorece.mute = false;
-            }
-
+            audioMute();
         }
 
     }
 
+    //오디오 플레이
+    public void audioPlay()
+    {
+        audioSorece.Play();
+    }
 
+
+    //오디오 뮤트
     public void audioMute()
     {
-        //음소거
+
         if (audioSorece.mute == false)
         {
             audioSorece.mute = true;
@@ -57,5 +56,11 @@ public class AudioManager : MonoBehaviour
             audioSorece.mute = false;
         }
 
+    }
+
+    //오디오 멈춤
+    public void audioStop()
+    {
+        audioSorece.Stop();
     }
 }
