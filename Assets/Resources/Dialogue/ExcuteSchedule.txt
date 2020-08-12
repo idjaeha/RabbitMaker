@@ -1,2 +1,2 @@
-Message/Fairy/Right/실행하시겠습니까?
-Button/예/아니오
+Message[실행하시겠습니까?]/Character[Fairy,Right]/Button
+DeleteAll

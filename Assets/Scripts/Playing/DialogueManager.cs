@@ -8,14 +8,14 @@ public enum CharacterPosition
 {
     Left = 0,
     Center = 1,
-    Right = 0
+    Right = 2
 }
 
 public class DialogueManager : MonoBehaviour
 {
     [SerializeField]
-    private List<GameObject> characterPrefabs;
-    private Dictionary<string, GameObject> characterDictionary;
+    private List<GameObject> contentPrefabs; // 대화에 필요한 content들을 저장한 배열입니다. 각종 캐릭터나 버튼까지 모두 저장합니다.
+    private Dictionary<string, GameObject> contentDictionary; // contentPrefabs에 있는 value값을 key값을 통해 쉽게 찾을 수 있게 도와줍니다.
 
     [SerializeField]
     private GameObject cnvDialoguePrefab;
@@ -26,7 +26,7 @@ public class DialogueManager : MonoBehaviour
 
     private TextLoader textLoader;
     private List<string> dialogues;
-    private int dialogueIndex;
+    private int commandIndex;
     private Text dialogueBox;
     private static DialogueManager instance;
     public static DialogueManager Instance
@@ -43,8 +43,8 @@ public class DialogueManager : MonoBehaviour
         dialogues = new List<string>();
         textLoader = new TextLoader();
         createdCharacters = new GameObject[3];
-        characterDictionary = new Dictionary<string, GameObject>();
-        dialogueIndex = 0;
+        contentDictionary = new Dictionary<string, GameObject>();
+        commandIndex = 0;
         InitCharacterDictionary();
         InitDialogueBox();
     }
@@ -64,9 +64,9 @@ public class DialogueManager : MonoBehaviour
 
     private void InitCharacterDictionary()
     {
-        foreach (GameObject prefab in characterPrefabs)
+        foreach (GameObject prefab in contentPrefabs)
         {
-            characterDictionary.Add(prefab.name, prefab);
+            contentDictionary.Add(prefab.name, prefab);
         }
     }
 
@@ -85,13 +85,13 @@ public class DialogueManager : MonoBehaviour
     /// <param name="x">x 좌표</param>
     /// <param name="y">y 좌표</param>
     /// <returns>캐릭터 정보</returns>
-    public GameObject CreateCharacter(string name, int x, int y)
+    public GameObject CreateContent(string name, int x, int y)
     {
         GameObject character = null;
-        if (characterDictionary.ContainsKey(name))
+        if (contentDictionary.ContainsKey(name))
         {
             Vector3 position = new Vector3(x, y, 0);
-            character = Instantiate<GameObject>(characterDictionary[name], position, Quaternion.identity);
+            character = Instantiate<GameObject>(contentDictionary[name], position, Quaternion.identity);
         }
         return character;
     }
@@ -99,10 +99,10 @@ public class DialogueManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        NextMessage();
+        NextCommand();
     }
 
-    public void ReceiveMessages(List<string> newMessages)
+    public void ReceiveCommands(List<string> newMessages)
     {
         if (newMessages == null)
         {
@@ -117,88 +117,110 @@ public class DialogueManager : MonoBehaviour
             }
             dialogues = newMessages;
         }
-        dialogueIndex = 0;
-        ExecuteMessage(dialogueIndex++); // 최초 1회 실행
+        commandIndex = 0;
+        ExecuteCommand(commandIndex++); // 최초 1회 실행
     }
 
-    public void ReceiveMessagesFile(string messageFileName)
+    public void ReceiveCommandsFile(string messageFileName)
     {
-        ReceiveMessages(textLoader.LoadText(messageFileName));
+        ReceiveCommands(textLoader.LoadText(messageFileName));
     }
 
     /// <summary>
     /// 메세지 배열에 저장된 메세지를 순서대로 보여줍니다.
     /// </summary>
-    public void NextMessage()
+    public void NextCommand()
     {
         if (dialogues.Count > 0)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if (dialogueIndex < dialogues.Count)
+                if (commandIndex < dialogues.Count)
                 {
-                    ExecuteMessage(dialogueIndex++);
-                }
-                else
-                {
-                    DeleteCharacters();
-                    HiddenDialogueUI();
+                    ExecuteCommand(commandIndex++);
                 }
             }
         }
     }
 
-    private void ExecuteMessage(int index)
+    private void ExecuteCommand(int index)
     {
-        string rawMessage = dialogues[index];
-        Debug.Log("Show " + rawMessage);
-        List<string> messageArray = new List<string>(rawMessage.Split('/'));
-        string flag = messageArray[0];
-        if (flag.Equals("Message"))
+        string rawCommand = dialogues[index];
+        List<string> commands = new List<string>(rawCommand.Split('/'));
+        foreach (string command in commands)
         {
+            CommandHandler(command);
+        }
+
+    }
+
+    private void CommandHandler(string command)
+    {
+        Debug.Log("command" + command);
+        if (command.StartsWith("Message"))
+        {
+            string message = PutStringBracket(command);
+            dialogueBox.text = message;
+            cnvDialogue.SetActive(true);
+        }
+        else if (command.StartsWith("Character"))
+        {
+            string[] arguments = PutStringBracket(command).Split(',');
+            string name = arguments[0].Trim();
+            string stringPositionFlag = arguments[1].Trim();
+            CharacterPosition positionFlag = (CharacterPosition)Enum.Parse(typeof(CharacterPosition), stringPositionFlag);
+            int position = 0;
+            if (positionFlag == CharacterPosition.Left)
+            {
+                position = -7;
+            }
+            else if (positionFlag == CharacterPosition.Center)
+            {
+                position = 0;
+            }
+            else if (positionFlag == CharacterPosition.Right)
+            {
+                position = 7;
+            }
+            GameObject charater = CreateContent(name, position, 0);
+            createdCharacters[(int)positionFlag] = charater;
+        }
+        else if (command.StartsWith("DeleteAll"))
+        {
+            HiddenDialogueUI();
             DeleteCharacters();
-            ShowDialogueUI();
-            MessageHandler(messageArray);
         }
     }
 
-    private void MessageHandler(List<string> messageArray)
+    /// <summary>
+    /// [] 괄호 안에서 문자열을 뽑아냅니다.
+    /// 괄호가 제대로 형성되어 있지 않다면 빈 문자열을 반환한다.
+    /// </summary>
+    /// <param name="rawString">[] 가 포함된 문자열</param>
+    /// <returns></returns>
+    private string PutStringBracket(string rawString)
     {
-        if (messageArray.Count == 2) // 대화 내용만 포함
+        string newString = "";
+        bool canAdd = false;
+
+        foreach (char character in rawString)
         {
-            dialogueBox.text = messageArray[1];
-        }
-        else if (messageArray.Count == 3) // 인물, 대화 내용 포함
-        {
-            string characterName = messageArray[1];
-            CreateCharacter(characterName, 0, 0);
-            dialogueBox.text = messageArray[2];
-        }
-        else if (messageArray.Count == 4) // 인물, 위치, 대화 내용 포함
-        {
-            string characterName = messageArray[1];
-            string characterPositionFlag = messageArray[2];
-            int x = 0;
-            CharacterPosition characterPosition = 0;
-            if (characterPositionFlag.Equals("Left"))
+            if (character.Equals('['))
             {
-                x = -7;
-                characterPosition = CharacterPosition.Left;
+                canAdd = true;
             }
-            else if (characterPositionFlag.Equals("Right"))
+            else if (character.Equals(']'))
             {
-                x = 7;
-                characterPosition = CharacterPosition.Right;
+                canAdd = false;
+                break;
             }
-            else if (characterPositionFlag.Equals("Center"))
+            else if (canAdd)
             {
-                x = 0;
-                characterPosition = CharacterPosition.Center;
+                newString += character;
             }
-            GameObject createdCharacter = CreateCharacter(characterName, x, 0);
-            createdCharacters[(int)characterPosition] = createdCharacter;
-            dialogueBox.text = messageArray[3];
         }
+
+        return newString;
     }
 
     // TODO : 추후 개선 필요, 언제 hidden이 될 것인지

@@ -305,7 +305,7 @@ PrefabInstance:
     - target: {fileID: 3176496968203363426, guid: baad4cfba0806214c82f2f1a121f5451,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ReceiveMessagesFile
+      value: ReceiveCommandsFile
       objectReference: {fileID: 0}
     - target: {fileID: 3176496968203363426, guid: baad4cfba0806214c82f2f1a121f5451,
         type: 3}
