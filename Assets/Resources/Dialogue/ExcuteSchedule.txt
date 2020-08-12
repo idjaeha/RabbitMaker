@@ -1,1 +1,2 @@
-Message/Fairy/Left/실행하시겠습니까?
+Message/Fairy/Right/실행하시겠습니까?
+Button/예/아니오
