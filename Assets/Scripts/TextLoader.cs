@@ -11,7 +11,6 @@ public class TextLoader
     {
         string filePath = string.Format(TEXT_FILE_PATH, fileNickname);
         List<string> texts = new List<string>();
-
         if (File.Exists(filePath))
         {
             foreach (string text in File.ReadLines(filePath))

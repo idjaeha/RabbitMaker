@@ -49,3 +49,5 @@ MonoBehaviour:
     type: 3}
   sceneLoaderPrefab: {fileID: 8906695433969184928, guid: 4471d722e433cec498a5b13663cc391e,
     type: 3}
+  characterFactoryPrefab: {fileID: 5029449167134914874, guid: 32bb47aa2c30d2c4797667e83a131a7c,
+    type: 3}

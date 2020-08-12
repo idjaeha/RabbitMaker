@@ -37,6 +37,10 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
+            foreach (var message in newMessages)
+            {
+                Debug.Log(message);
+            }
             dialogues = newMessages;
         }
         dialogueIndex = 0;
@@ -58,7 +62,46 @@ public class DialogueManager : MonoBehaviour
 
     private void ShowMessage(int index)
     {
-        dialogueBox.text = dialogues[index];
+        string rawMessage = dialogues[index];
+        Debug.Log("Show " + rawMessage);
+        List<string> messageArray = new List<string>(rawMessage.Split('/'));
+        string flag = messageArray[0];
+        if (flag.Equals("Message"))
+        {
+            MessageHandler(messageArray);
+        }
+    }
+
+    private void MessageHandler(List<string> messageArray)
+    {
+        if (messageArray.Count == 2) // 대화 내용만 포함
+        {
+            dialogueBox.text = messageArray[1];
+        }
+        else if (messageArray.Count == 3) // 인물, 대화 내용 포함
+        {
+            string characterName = messageArray[1];
+            // GameManager.Instance.CreateCharacter(characterName, 0, 0);
+            dialogueBox.text = messageArray[2];
+        }
+        else if (messageArray.Count == 4) // 인물, 위치, 대화 내용 포함
+        {
+            string characterName = messageArray[1];
+            string characterPosition = messageArray[2];
+            if (characterPosition.Equals("Left"))
+            {
+                // GameManager.Instance.CreateCharacter(characterName, -7, 0);
+            }
+            else if (characterPosition.Equals("Right"))
+            {
+                // GameManager.Instance.CreateCharacter(characterName, 7, 0);
+            }
+            else if (characterPosition.Equals("Center"))
+            {
+                // GameManager.Instance.CreateCharacter(characterName, 0, 0);
+            }
+            dialogueBox.text = messageArray[3];
+        }
     }
 
     // TODO : 추후 개선 필요, 언제 hidden이 될 것인지
