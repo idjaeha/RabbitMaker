@@ -18,52 +18,53 @@ public class CommandHandler
         }
     }
 
-    public CommandHandler()
-    {
-        InitActionDictionary();
-    }
-
-    private Dictionary<string, Action> actionDictionary;
-
-    private void InitActionDictionary()
-    {
-        actionDictionary = new Dictionary<string, Action>();
-        actionDictionary.Add("ShowMenuUI", playingManager.ShowMenuUI);
-        actionDictionary.Add("HiddenMenuUI", playingManager.HiddenMenuUI);
-        actionDictionary.Add("CreateDecisionUI", playingManager.CreateDecisionUI);
-        actionDictionary.Add("DeleteDecisionUI", playingManager.DeleteDecisionUI);
-        actionDictionary.Add("StartSchedule", playingManager.StartSchedule);
-    }
-
     // TODO : 인자가 있을 경우 어떻게 해결할 것인가?
+    // public CommandHandler()
+    // {
+    //     InitActionDictionary();
+    // }
+
+    // private Dictionary<string, Action<string>> actionDictionary;
+
+    // private void InitActionDictionary()
+    // {
+    //     actionDictionary = new Dictionary<string, Action<string>>();
+    //     actionDictionary.Add("ShowMenuUI", playingManager.ShowMenuUI;
+    //     actionDictionary.Add("HiddenMenuUI", playingManager.HiddenMenuUI);
+    //     actionDictionary.Add("CreateDecisionUI", playingManager.CreateDecisionUI);
+    //     actionDictionary.Add("DeleteDecisionUI", playingManager.DeleteDecisionUI);
+    //     actionDictionary.Add("StartSchedule", playingManager.StartSchedule);
+    // }
+
     // public void Handle(string command)
     // {
-    //     if (command.StartsWith("ShowMenuUI"))
-    //     {
-    //         playingManager.ShowMenuUI();
-    //     }
-    //     else if (command.StartsWith("HiddenMenuUI"))
-    //     {
-    //         playingManager.HiddenMenuUI();
-    //     }
-    //     else if (command.StartsWith("CreateDecisionUI"))
-    //     {
-    //         playingManager.CreateDecisionUI();
-    //     }
-    //     else if (command.StartsWith("DeleteDecisionUI"))
-    //     {
-    //         playingManager.DeleteDecisionUI();
-    //     }
-    //     else if (command.StartsWith("StartSchedule"))
-    //     {
-    //         playingManager.StartSchedule();
-    //     }
+    //     actionDictionary[command](command);
     // }
 
     public void Handle(string command)
     {
-        actionDictionary[command]();
+        if (command.StartsWith("ShowMenuUI"))
+        {
+            playingManager.ShowMenuUI();
+        }
+        else if (command.StartsWith("HiddenMenuUI"))
+        {
+            playingManager.HiddenMenuUI();
+        }
+        else if (command.StartsWith("CreateDecisionUI"))
+        {
+            playingManager.CreateDecisionUI();
+        }
+        else if (command.StartsWith("DeleteDecisionUI"))
+        {
+            playingManager.DeleteDecisionUI();
+        }
+        else if (command.StartsWith("StartSchedule"))
+        {
+            playingManager.StartSchedule();
+        }
     }
+
 
     /// <summary>
     /// [] 괄호 안에서 문자열을 뽑아냅니다.
