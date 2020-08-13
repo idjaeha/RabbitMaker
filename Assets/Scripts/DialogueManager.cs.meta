@@ -1,9 +1,11 @@
 fileFormatVersion: 2
-guid: 9363dcacf62ccee45a85238fb9a60741
+guid: 117d2760f28536943ae6b13975db97e3
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - cnvDialoguePrefab: {fileID: 3306846896399863280, guid: 12425a5da38fab04489e2dfca053700c,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

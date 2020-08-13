@@ -111,10 +111,6 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            foreach (var message in newMessages)
-            {
-                Debug.Log(message);
-            }
             dialogues = newMessages;
         }
         commandIndex = 0;
@@ -156,7 +152,6 @@ public class DialogueManager : MonoBehaviour
 
     private void CommandHandler(string command)
     {
-        Debug.Log("command" + command);
         if (command.StartsWith("Message"))
         {
             string message = PutStringBracket(command);
