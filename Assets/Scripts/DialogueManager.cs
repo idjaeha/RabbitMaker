@@ -4,12 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
+/// <summary>
+/// 대화와 캐릭터 생성 및 삭제를 담당하는 객체입니다.
+/// 그 이외의 명령은 CommandHandler에게 맡깁니다.
+/// </summary>
 public class DialogueManager : MonoBehaviour
 {
     [SerializeField]
-    private List<GameObject> contentPrefabs; // 대화에 필요한 content들을 저장한 배열입니다. 각종 캐릭터나 버튼까지 모두 저장합니다.
-    private Dictionary<string, GameObject> contentDictionary; // contentPrefabs에 있는 value값을 key값을 통해 쉽게 찾을 수 있게 도와줍니다.
+    private List<GameObject> characterPrefabs; // 대화에 필요한 content들을 저장한 배열입니다. 각종 캐릭터나 버튼까지 모두 저장합니다.
+    private Dictionary<string, GameObject> characterDictionary; // contentPrefabs에 있는 value값을 key값을 통해 쉽게 찾을 수 있게 도와줍니다.
 
     [SerializeField]
     private GameObject cnvDialoguePrefab;
@@ -17,19 +20,6 @@ public class DialogueManager : MonoBehaviour
 
     private List<GameObject> createdCharacters; // index[0] : Left, index[1]: Center, index[2] : Right
     private const int CHARACTER_POSITION_X = 7;
-
-    private PlayingManager _playingManager;
-    private PlayingManager playingManager
-    {
-        get
-        {
-            if (_playingManager == null)
-            {
-                _playingManager = GameObject.FindGameObjectWithTag("PlayingManager").GetComponent<PlayingManager>();
-            }
-            return _playingManager;
-        }
-    }
 
     private TextLoader textLoader;
     private List<string> dialogues;
@@ -44,12 +34,15 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    private CommandHandler commandHandler;
+
     void Awake()
     {
         InitDialogueManager();
         dialogues = new List<string>();
         createdCharacters = new List<GameObject>();
-        contentDictionary = new Dictionary<string, GameObject>();
+        characterDictionary = new Dictionary<string, GameObject>();
+        commandHandler = new CommandHandler();
         commandIndex = 0;
         InitCharacterDictionary();
         InitDialogueBox();
@@ -70,9 +63,9 @@ public class DialogueManager : MonoBehaviour
 
     private void InitCharacterDictionary()
     {
-        foreach (GameObject prefab in contentPrefabs)
+        foreach (GameObject prefab in characterPrefabs)
         {
-            contentDictionary.Add(prefab.name, prefab);
+            characterDictionary.Add(prefab.name, prefab);
         }
     }
 
@@ -91,13 +84,13 @@ public class DialogueManager : MonoBehaviour
     /// <param name="x">x 좌표</param>
     /// <param name="y">y 좌표</param>
     /// <returns>캐릭터 정보</returns>
-    private GameObject CreateContent(string name, int x, int y)
+    private GameObject CreateCharacter(string name, int x, int y)
     {
         GameObject character = null;
-        if (contentDictionary.ContainsKey(name))
+        if (characterDictionary.ContainsKey(name))
         {
             Vector3 position = new Vector3(x, y, 0);
-            character = Instantiate<GameObject>(contentDictionary[name], position, Quaternion.identity);
+            character = Instantiate<GameObject>(characterDictionary[name], position, Quaternion.identity);
         }
         return character;
     }
@@ -152,100 +145,57 @@ public class DialogueManager : MonoBehaviour
         List<string> commands = new List<string>(rawCommand.Split('/'));
         foreach (string command in commands)
         {
-            CommandHandler(command);
-        }
-
-    }
-
-    private void CommandHandler(string command)
-    {
-        if (command.StartsWith("Message"))
-        {
-            string message = PutStringBracket(command);
-            dialogueBox.text = message;
-            cnvDialogue.SetActive(true);
-        }
-        else if (command.StartsWith("Character"))
-        {
-            string[] arguments = PutStringBracket(command).Split(',');
-            string name = arguments[0].Trim();
-            string stringPositionFlag = arguments[1].Trim();
-            int position = 0;
-            if (stringPositionFlag.Equals("Left"))
+            if (command.StartsWith("Message"))
             {
-                position = -CHARACTER_POSITION_X;
+                string message = commandHandler.PutStringBracket(command);
+                EnterMessageIntoDialogue(message);
+                ShowDialogueUI();
             }
-            else if (stringPositionFlag.Equals("Center"))
+            else if (command.StartsWith("Character"))
             {
-                position = 0;
+                string[] arguments = commandHandler.PutStringBracket(command).Split(',');
+                string name = arguments[0].Trim();
+                string stringPositionFlag = arguments[1].Trim();
+                CreateCharacter(name, stringPositionFlag);
             }
-            else if (stringPositionFlag.Equals("Right"))
+            else if (command.StartsWith("DeleteDialogueAndCharacter"))
             {
-                position = CHARACTER_POSITION_X;
+                HiddenDialogueUI();
+                DeleteCharacters();
             }
-            GameObject charater = CreateContent(name, position, 0);
-            createdCharacters.Add(charater);
-        }
-        else if (command.StartsWith("DeleteAll"))
-        {
-            HiddenDialogueUI();
-            DeleteCharacters();
-        }
-        else if (command.StartsWith("DeleteCharacters"))
-        {
-            DeleteCharacters();
-        }
-        else if (command.StartsWith("ShowMenuUI"))
-        {
-            playingManager.ShowMenuUI();
-        }
-        else if (command.StartsWith("HiddenMenuUI"))
-        {
-            playingManager.HiddenMenuUI();
-        }
-        else if (command.StartsWith("CreateDecisionUI"))
-        {
-            playingManager.CreateDecisionUI();
-        }
-        else if (command.StartsWith("DeleteDecisionUI"))
-        {
-            playingManager.DeleteDecisionUI();
-        }
-        else if (command.StartsWith("StartSchedule"))
-        {
-            playingManager.StartSchedule();
+            else if (command.StartsWith("DeleteCharacters"))
+            {
+                DeleteCharacters();
+            }
+            else
+            {
+                commandHandler.Handle(command);
+            }
         }
     }
 
-    /// <summary>
-    /// [] 괄호 안에서 문자열을 뽑아냅니다.
-    /// 괄호가 제대로 형성되어 있지 않다면 빈 문자열을 반환한다.
-    /// </summary>
-    /// <param name="rawString">[] 가 포함된 문자열</param>
-    /// <returns>괄호 안에 문자열</returns>
-    private string PutStringBracket(string rawString)
+    private void CreateCharacter(string name, string stringPositionFlag)
     {
-        string newString = "";
-        bool canAdd = false;
-
-        foreach (char character in rawString)
+        int position = 0;
+        if (stringPositionFlag.Equals("Left"))
         {
-            if (character.Equals('['))
-            {
-                canAdd = true;
-            }
-            else if (character.Equals(']'))
-            {
-                canAdd = false;
-                break;
-            }
-            else if (canAdd)
-            {
-                newString += character;
-            }
+            position = -CHARACTER_POSITION_X;
         }
+        else if (stringPositionFlag.Equals("Center"))
+        {
+            position = 0;
+        }
+        else if (stringPositionFlag.Equals("Right"))
+        {
+            position = CHARACTER_POSITION_X;
+        }
+        GameObject charater = CreateCharacter(name, position, 0);
+        createdCharacters.Add(charater);
+    }
 
-        return newString;
+    private void EnterMessageIntoDialogue(string message)
+    {
+        dialogueBox.text = message;
     }
 
     private void HiddenDialogueUI()

@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 117d2760f28536943ae6b13975db97e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  contentPrefabs:
+  characterPrefabs:
   - {fileID: 4402040912884933768, guid: 86977efa0526b0f4aa762e21348c1859, type: 3}
   cnvDialoguePrefab: {fileID: 3306846896399863280, guid: 12425a5da38fab04489e2dfca053700c,
     type: 3}

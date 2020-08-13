@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TextLoader
 {
-    private readonly string TEXT_FILE_PATH = "Assets\\Resources\\Dialogue\\{0}.txt";
+    private readonly string TEXT_FILE_PATH = "Assets\\Resources\\Commands\\{0}.txt";
 
     public List<string> LoadText(string fileNickname)
     {
