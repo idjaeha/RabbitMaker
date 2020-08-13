@@ -51,6 +51,7 @@ public class School : MonoBehaviour, ISchedule
         state = ScheduleState.Finish;
         PlayingManager.PlusCurrentScheduleIndex();
         gameObject.SetActive(false);
+        DialogueManager.Instance.ReceiveCommandsFile("EndSchedule");
     }
 
     public void Pause()

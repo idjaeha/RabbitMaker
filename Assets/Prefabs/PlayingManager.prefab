@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1869454869431085209}
   m_Layer: 0
   m_Name: PlayingManager
-  m_TagString: Untagged
+  m_TagString: PlayingManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,5 +47,5 @@ MonoBehaviour:
     type: 3}
   scheduleHandlerPrefab: {fileID: 9000612391537056146, guid: 106065fd2593a6b499728acce12daff6,
     type: 3}
-  characterFactoryPrefab: {fileID: 5029449167134914874, guid: 32bb47aa2c30d2c4797667e83a131a7c,
+  cnvDecisionPrefab: {fileID: 7812107269733093120, guid: 6ddb7465cee20fc4699c42841f6776ed,
     type: 3}

@@ -15,9 +15,27 @@ public class PlayingManager : MonoBehaviour
     private GameObject scheduleHandlerPrefab;
     private ScheduleHandler scheduleHandler;
 
+    [SerializeField]
+    private GameObject cnvDecisionPrefab;
+    private List<GameObject> createdUIContents;
+
+    private GameObject _cnvMenu;
+    private GameObject cnvMenu
+    {
+        get
+        {
+            if (_cnvMenu == null)
+            {
+                _cnvMenu = GameObject.Find("Cnv_Menu");
+            }
+            return _cnvMenu;
+        }
+    }
+
 
     private void Awake()
     {
+        createdUIContents = new List<GameObject>();
         currentScheduleIndex = 0;
         scheduler = Instantiate<GameObject>(schedulerPrefab).GetComponent<Scheduler>();
         scheduleHandler = Instantiate<GameObject>(scheduleHandlerPrefab).GetComponent<ScheduleHandler>();
@@ -38,7 +56,7 @@ public class PlayingManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("스케줄이 비었습니다.");
+            DialogueManager.Instance.ReceiveCommandsFile("EmptySchedule");
         }
     }
 
@@ -48,5 +66,30 @@ public class PlayingManager : MonoBehaviour
         {
             currentScheduleIndex++;
         }
+    }
+
+    public void CreateDecisionUI()
+    {
+        GameObject decision = Instantiate(cnvDecisionPrefab);
+        createdUIContents.Add(decision);
+    }
+
+    public void DeleteDecisionUI()
+    {
+        foreach (GameObject uiContent in createdUIContents)
+        {
+            Destroy(uiContent);
+        }
+        createdUIContents.Clear();
+    }
+
+    public void HiddenMenuUI()
+    {
+        cnvMenu.SetActive(false);
+    }
+
+    public void ShowMenuUI()
+    {
+        cnvMenu.SetActive(true);
     }
 }

@@ -4,12 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum CharacterPosition
-{
-    Left = 0,
-    Center = 1,
-    Right = 2
-}
 
 public class DialogueManager : MonoBehaviour
 {
@@ -21,8 +15,21 @@ public class DialogueManager : MonoBehaviour
     private GameObject cnvDialoguePrefab;
     private GameObject cnvDialogue;
 
-    private GameObject[] createdCharacters; // index[0] : Left, index[1]: Center, index[2] : Right
-    private const int CREATED_CHARACTERS_SIZE = 3;
+    private List<GameObject> createdCharacters; // index[0] : Left, index[1]: Center, index[2] : Right
+    private const int CHARACTER_POSITION_X = 7;
+
+    private PlayingManager _playingManager;
+    private PlayingManager playingManager
+    {
+        get
+        {
+            if (_playingManager == null)
+            {
+                _playingManager = GameObject.FindGameObjectWithTag("PlayingManager").GetComponent<PlayingManager>();
+            }
+            return _playingManager;
+        }
+    }
 
     private TextLoader textLoader;
     private List<string> dialogues;
@@ -39,17 +46,16 @@ public class DialogueManager : MonoBehaviour
 
     void Awake()
     {
-        InitGameManager();
+        InitDialogueManager();
         dialogues = new List<string>();
-        textLoader = new TextLoader();
-        createdCharacters = new GameObject[3];
+        createdCharacters = new List<GameObject>();
         contentDictionary = new Dictionary<string, GameObject>();
         commandIndex = 0;
         InitCharacterDictionary();
         InitDialogueBox();
     }
 
-    private void InitGameManager()
+    private void InitDialogueManager()
     {
         if (instance == null)
         {
@@ -85,7 +91,7 @@ public class DialogueManager : MonoBehaviour
     /// <param name="x">x 좌표</param>
     /// <param name="y">y 좌표</param>
     /// <returns>캐릭터 정보</returns>
-    public GameObject CreateContent(string name, int x, int y)
+    private GameObject CreateContent(string name, int x, int y)
     {
         GameObject character = null;
         if (contentDictionary.ContainsKey(name))
@@ -119,13 +125,14 @@ public class DialogueManager : MonoBehaviour
 
     public void ReceiveCommandsFile(string messageFileName)
     {
-        ReceiveCommands(textLoader.LoadText(messageFileName));
+        textLoader = new TextLoader();
+        Instance.ReceiveCommands(textLoader.LoadText(messageFileName));
     }
 
     /// <summary>
     /// 메세지 배열에 저장된 메세지를 순서대로 보여줍니다.
     /// </summary>
-    public void NextCommand()
+    private void NextCommand()
     {
         if (dialogues.Count > 0)
         {
@@ -163,27 +170,50 @@ public class DialogueManager : MonoBehaviour
             string[] arguments = PutStringBracket(command).Split(',');
             string name = arguments[0].Trim();
             string stringPositionFlag = arguments[1].Trim();
-            CharacterPosition positionFlag = (CharacterPosition)Enum.Parse(typeof(CharacterPosition), stringPositionFlag);
             int position = 0;
-            if (positionFlag == CharacterPosition.Left)
+            if (stringPositionFlag.Equals("Left"))
             {
-                position = -7;
+                position = -CHARACTER_POSITION_X;
             }
-            else if (positionFlag == CharacterPosition.Center)
+            else if (stringPositionFlag.Equals("Center"))
             {
                 position = 0;
             }
-            else if (positionFlag == CharacterPosition.Right)
+            else if (stringPositionFlag.Equals("Right"))
             {
-                position = 7;
+                position = CHARACTER_POSITION_X;
             }
             GameObject charater = CreateContent(name, position, 0);
-            createdCharacters[(int)positionFlag] = charater;
+            createdCharacters.Add(charater);
         }
         else if (command.StartsWith("DeleteAll"))
         {
             HiddenDialogueUI();
             DeleteCharacters();
+        }
+        else if (command.StartsWith("DeleteCharacters"))
+        {
+            DeleteCharacters();
+        }
+        else if (command.StartsWith("ShowMenuUI"))
+        {
+            playingManager.ShowMenuUI();
+        }
+        else if (command.StartsWith("HiddenMenuUI"))
+        {
+            playingManager.HiddenMenuUI();
+        }
+        else if (command.StartsWith("CreateDecisionUI"))
+        {
+            playingManager.CreateDecisionUI();
+        }
+        else if (command.StartsWith("DeleteDecisionUI"))
+        {
+            playingManager.DeleteDecisionUI();
+        }
+        else if (command.StartsWith("StartSchedule"))
+        {
+            playingManager.StartSchedule();
         }
     }
 
@@ -192,7 +222,7 @@ public class DialogueManager : MonoBehaviour
     /// 괄호가 제대로 형성되어 있지 않다면 빈 문자열을 반환한다.
     /// </summary>
     /// <param name="rawString">[] 가 포함된 문자열</param>
-    /// <returns></returns>
+    /// <returns>괄호 안에 문자열</returns>
     private string PutStringBracket(string rawString)
     {
         string newString = "";
@@ -218,13 +248,11 @@ public class DialogueManager : MonoBehaviour
         return newString;
     }
 
-    // TODO : 추후 개선 필요, 언제 hidden이 될 것인지
     private void HiddenDialogueUI()
     {
         cnvDialogue.SetActive(false);
     }
 
-    // TODO : 추후 개선 필요, 언제 show가 될 것인지
     private void ShowDialogueUI()
     {
         cnvDialogue.SetActive(true);
@@ -235,27 +263,40 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     private void DeleteCharacters()
     {
-        for (int index = 0; index < CREATED_CHARACTERS_SIZE; index++)
+        foreach (GameObject character in createdCharacters)
         {
-            if (createdCharacters[index] != null)
-            {
-                Destroy(createdCharacters[index]);
-            }
-            createdCharacters[index] = null;
+            Destroy(character);
         }
+        createdCharacters.Clear();
     }
 
     /// <summary>
-    /// 해당하는 위치에 있는 생성된 캐릭터를 지웁니다.
+    /// 지정한 위치에 있는 캐릭터를 지웁니다.
     /// </summary>
-    /// <param name="index">지울 위치</param>
-    private void DeleteCharacter(int index)
+    /// <param name="position">Left, Right, Center 중 하나</param>
+    private void DeleteCharacter(string position)
     {
-        if (createdCharacters[index] != null)
+        float deletePosision = 0;
+        if (position.Equals("Left"))
         {
-            Destroy(createdCharacters[index]);
+            deletePosision = -CHARACTER_POSITION_X;
         }
-        createdCharacters[index] = null;
+        else if (position.Equals("Right"))
+        {
+            deletePosision = CHARACTER_POSITION_X;
+        }
+        else if (position.EndsWith("Center"))
+        {
+            deletePosision = 0;
+        }
+        for (int characterIndex = 0; characterIndex < createdCharacters.Count; characterIndex++)
+        {
+            if (createdCharacters[characterIndex].transform.position.x == deletePosision)
+            {
+                Destroy(createdCharacters[characterIndex]);
+                createdCharacters.RemoveAt(characterIndex);
+            }
+        }
     }
 
     // TODO : Typing 효과 구현하기

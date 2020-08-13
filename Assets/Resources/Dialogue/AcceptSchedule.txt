@@ -1,0 +1,2 @@
+Message[스케줄을 시작합니다.]/DeleteDecisionUI
+DeleteAll/StartSchedule

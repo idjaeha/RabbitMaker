@@ -1,0 +1,2 @@
+Message[스케줄이 비었습니다.]/DeleteDecisionUI/Character[Fairy,Right]
+DeleteAll/ShowMenuUI

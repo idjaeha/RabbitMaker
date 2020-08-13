@@ -1,0 +1,2 @@
+Message[더 고민해보세요!]/DeleteDecisionUI
+DeleteAll/ShowMenuUI

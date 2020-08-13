@@ -1,2 +1,0 @@
-Message[실행하시겠습니까?]/Character[Fairy,Right]/Button
-DeleteAll
