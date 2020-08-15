@@ -20,9 +20,12 @@ public class DialogueManager : MonoBehaviour
 
     private List<GameObject> createdCharacters; // index[0] : Left, index[1]: Center, index[2] : Right
     private const int CHARACTER_POSITION_X = 7;
-
+    private const KeyCode NEXT_COMMAND = KeyCode.Space;
+    private readonly float typingMessageIdleTime = 0.05f;
+    private bool canNextCommand; // 다음 커맨드로 넘어갈 수 있는 상태인지 나타냅니다.
+    private string targetMessage;
     private TextLoader textLoader;
-    private List<string> dialogues;
+    private List<string> commands;
     private int commandIndex;
     private Text dialogueBox;
     private static DialogueManager instance;
@@ -36,14 +39,22 @@ public class DialogueManager : MonoBehaviour
 
     private CommandHandler commandHandler;
 
+    private IEnumerator typingEffectCoroutine;
+    private string printedMessageInUI;
+    private bool isTypingMessage; // 현재 타이핑하고 있는 상태인지 나타냅니다.
+    private IEnumerator canNextCommandCoroutine;
+    private readonly float canNextCommandIdleTime = 1.0f;
+
     void Awake()
     {
         InitDialogueManager();
-        dialogues = new List<string>();
+        commands = new List<string>();
         createdCharacters = new List<GameObject>();
         characterDictionary = new Dictionary<string, GameObject>();
         commandHandler = new CommandHandler();
         commandIndex = 0;
+        canNextCommand = true;
+        isTypingMessage = false;
         InitCharacterDictionary();
         InitDialogueBox();
     }
@@ -106,11 +117,11 @@ public class DialogueManager : MonoBehaviour
         if (newMessages == null)
         {
             Debug.Log("빈 메세지입니다.");
-            dialogues = new List<string>();
+            commands = new List<string>();
         }
         else
         {
-            dialogues = newMessages;
+            commands = newMessages;
         }
         commandIndex = 0;
         ExecuteCommand(commandIndex++); // 최초 1회 실행
@@ -123,15 +134,21 @@ public class DialogueManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 메세지 배열에 저장된 메세지를 순서대로 보여줍니다.
+    /// 저장된 commands에서 command를 불러옵니다.
     /// </summary>
     private void NextCommand()
     {
-        if (dialogues.Count > 0)
+        if (commands.Count > 0)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (canNextCommand && Input.GetKeyDown(NEXT_COMMAND))
             {
-                if (commandIndex < dialogues.Count)
+                if (isTypingMessage)
+                {
+                    PrintMessageInUI();
+                    return;
+                }
+
+                if (commandIndex < commands.Count)
                 {
                     ExecuteCommand(commandIndex++);
                 }
@@ -141,14 +158,14 @@ public class DialogueManager : MonoBehaviour
 
     private void ExecuteCommand(int index)
     {
-        string rawCommand = dialogues[index];
-        List<string> commands = new List<string>(rawCommand.Split('/'));
-        foreach (string command in commands)
+        string rawCommand = commands[index];
+        List<string> splitedMessages = new List<string>(rawCommand.Split('/'));
+        foreach (string command in splitedMessages)
         {
             if (command.StartsWith("Message"))
             {
                 string message = commandHandler.PutStringBracket(command);
-                EnterMessageIntoDialogue(message);
+                TypeMessage(message);
                 ShowDialogueUI();
             }
             else if (command.StartsWith("Character"))
@@ -193,9 +210,72 @@ public class DialogueManager : MonoBehaviour
         createdCharacters.Add(charater);
     }
 
-    private void EnterMessageIntoDialogue(string message)
+    /// <summary>
+    /// 메세지를 UI에 타이핑 효과를 넣어 출력합니다.
+    /// </summary>
+    /// <param name="message">출력될 메세지</param>
+    private void TypeMessage(string message)
     {
-        dialogueBox.text = message;
+        // 필요한 기능
+        // 1. 지정된 시간 뒤에는 스페이스 바를 누르면 모든 텍스트를 출력한다.
+        // 2. 일정한 간격으로 글자를 출력한다.
+        // 3. 모든 텍스트가 출력된 이후에는 스페이스바를 누르면 다음 명령으로 넘어간다.
+        canNextCommand = false;
+        targetMessage = message;
+
+        // 1번의 구현
+        // 일정 시간이 지난 뒤에 typing을 건너뛰고 모든 text를 보이게 할 수 있는 상태로 변경합니다.
+        if (canNextCommandCoroutine != null)
+        {
+            StopCoroutine(canNextCommandCoroutine);
+            canNextCommandCoroutine = null;
+        }
+        canNextCommandCoroutine = ChangeCanNextCommand();
+        StartCoroutine(canNextCommandCoroutine);
+
+        // 2번의 구현
+        // 코루틴을 이용하여 반복문을 통해 message를 출력하게 한다.
+        if (typingEffectCoroutine != null)
+        {
+            StopCoroutine(typingEffectCoroutine);
+            typingEffectCoroutine = null;
+        }
+        typingEffectCoroutine = TypingEffect();
+        StartCoroutine(typingEffectCoroutine);
+    }
+
+    private IEnumerator TypingEffect()
+    {
+        printedMessageInUI = "";
+        isTypingMessage = true;
+        for (int index = 0; printedMessageInUI.Length < targetMessage.Length; index++)
+        {
+            printedMessageInUI += targetMessage[index];
+            dialogueBox.text = printedMessageInUI;
+            yield return new WaitForSeconds(typingMessageIdleTime);
+        }
+        isTypingMessage = false;
+        canNextCommand = true;
+    }
+
+    private IEnumerator ChangeCanNextCommand()
+    {
+        yield return new WaitForSeconds(canNextCommandIdleTime);
+        if (!canNextCommand)
+        {
+            canNextCommand = true;
+        }
+    }
+
+    /// <summary>
+    /// target 메세지를 UI에 출력합니다.
+    /// </summary>
+    private void PrintMessageInUI()
+    {
+        printedMessageInUI = targetMessage;
+        dialogueBox.text = printedMessageInUI;
+        canNextCommand = true;
+        isTypingMessage = false;
     }
 
     private void HiddenDialogueUI()
@@ -248,6 +328,4 @@ public class DialogueManager : MonoBehaviour
             }
         }
     }
-
-    // TODO : Typing 효과 구현하기
 }
