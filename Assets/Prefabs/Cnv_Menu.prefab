@@ -354,7 +354,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: ExcuteSchedule
+          m_StringArgument: AskSchedule
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &3176496968386686898
@@ -500,7 +500,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3176496968454997751}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -508,12 +508,12 @@ RectTransform:
   - {fileID: 3176496968203363425}
   - {fileID: 3176496968386686899}
   - {fileID: 3176496968596997650}
-  m_Father: {fileID: 3176496968821560739}
-  m_RootOrder: 1
+  m_Father: {fileID: 3176496968629856441}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -429, y: 319}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3176496968596997649
@@ -664,13 +664,14 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 3176496968454997744}
   m_Father: {fileID: 3176496968821560739}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -429.0001, y: 319.00003}
+  m_AnchoredPosition: {x: -425.00003, y: -334.99997}
   m_SizeDelta: {x: -1300, y: -720}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3176496968629856443
@@ -736,12 +737,11 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3176496968821560743}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 3176496968629856441}
-  - {fileID: 3176496968454997744}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1047,6 +1047,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3176496968454997744}
     m_Modifications:
+    - target: {fileID: 1795940019239092240, guid: 72d0bb0e855047249986dc7db19ecb3a,
+        type: 3}
+      propertyPath: m_Text
+      value: "\uC77C\uC815"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1795940019809464018, guid: 72d0bb0e855047249986dc7db19ecb3a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1795940019809464020, guid: 72d0bb0e855047249986dc7db19ecb3a,
         type: 3}
       propertyPath: m_Name

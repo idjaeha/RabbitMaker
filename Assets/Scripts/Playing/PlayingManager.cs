@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 게임 진행을 담당하며, 게임을 진행을 위한 각종 객체들에게 명령을 내립니다.
+/// </summary>
 public class PlayingManager : MonoBehaviour
 {
     private const int TOTAL_SCHEDULE_NUM = 24 * 8;
@@ -20,6 +23,8 @@ public class PlayingManager : MonoBehaviour
     private List<GameObject> createdUIContents;
 
     private GameObject _cnvMenu;
+    private int selectedScheduleIndex;
+
     private GameObject cnvMenu
     {
         get
@@ -41,10 +46,10 @@ public class PlayingManager : MonoBehaviour
         scheduleHandler = Instantiate<GameObject>(scheduleHandlerPrefab).GetComponent<ScheduleHandler>();
     }
 
-    private void Start()
+    public void AddSchedule(string scheduleName)
     {
-        scheduler.Add(0, "School");
-        scheduler.Add(1, "School");
+        scheduler.Add(selectedScheduleIndex, scheduleName);
+        selectedScheduleIndex++;
     }
 
     public void StartSchedule()

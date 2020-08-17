@@ -84,7 +84,7 @@ public class DialogueManager : MonoBehaviour
     {
         cnvDialogue = Instantiate<GameObject>(cnvDialoguePrefab);
         cnvDialogue.SetActive(false);
-        cnvDialogue.transform.parent = transform;
+        cnvDialogue.transform.SetParent(transform, true);
         dialogueBox = cnvDialogue.GetComponentInChildren<Text>();
     }
 
