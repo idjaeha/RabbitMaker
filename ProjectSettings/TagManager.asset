@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Background
   - PlayingManager
+  - ScheduleViewerContent
   layers:
   - Default
   - TransparentFX

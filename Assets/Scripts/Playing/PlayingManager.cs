@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class PlayingManager : MonoBehaviour
 {
-    private const int TOTAL_SCHEDULE_NUM = 24 * 8;
+    public const int TOTAL_SCHEDULE_NUM = 24 * 8;
     private static int currentScheduleIndex;
 
     [SerializeField]
@@ -21,6 +21,9 @@ public class PlayingManager : MonoBehaviour
     [SerializeField]
     private GameObject cnvDecisionPrefab;
     private List<GameObject> createdUIContents;
+
+    [SerializeField]
+    private GameObject scheduleViewer;
 
     private GameObject _cnvMenu;
     private int selectedScheduleIndex;
@@ -96,5 +99,10 @@ public class PlayingManager : MonoBehaviour
     public void ShowMenuUI()
     {
         cnvMenu.SetActive(true);
+    }
+
+    public void AddScheduleViewer()
+    {
+
     }
 }
