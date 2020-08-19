@@ -23,11 +23,10 @@ public class ScheduleViewer : MonoBehaviour
         content = GameObject.FindGameObjectWithTag("ScheduleViewerContent");
         scheduleImages = new GameObject[PlayingManager.TOTAL_SCHEDULE_NUM];
         for (int index = 0; index < PlayingManager.TOTAL_SCHEDULE_NUM; index++)
-        // for (int index = 0; index < 1; index++)
         {
             GameObject newScheduleImage = Instantiate<GameObject>(scheduleImagePrefab, content.transform);
             newScheduleImage.GetComponent<Toggle>().group = content.GetComponent<ToggleGroup>();
-            newScheduleImage.transform.localPosition += new Vector3(IMAGE_GAP * index, 0, 0);
+            newScheduleImage.GetComponent<RectTransform>().anchoredPosition = new Vector2(IMAGE_GAP * index, 0);
             newScheduleImage.GetComponentInChildren<Text>().text = $"{index}일차";
             scheduleImages[index] = newScheduleImage;
         }
