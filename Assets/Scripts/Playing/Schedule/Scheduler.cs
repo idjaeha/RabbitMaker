@@ -31,6 +31,11 @@ public class Scheduler : MonoBehaviour
 
     public void Add(int index, string scheduleName)
     {
+        if (index < 0 || index > PlayingManager.TOTAL_SCHEDULE_NUM)
+        {
+            return;
+        }
+
         GameObject schedulePrefab = scheduleFactory.GetInstance(scheduleName);
         GameObject scheduleObject = Instantiate<GameObject>(schedulePrefab);
         scheduleObject.transform.parent = transform;

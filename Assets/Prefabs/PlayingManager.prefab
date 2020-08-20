@@ -49,6 +49,4 @@ MonoBehaviour:
     type: 3}
   cnvDecisionPrefab: {fileID: 7812107269733093120, guid: 6ddb7465cee20fc4699c42841f6776ed,
     type: 3}
-  scheduleImagePrefab: {fileID: 3759776064085516088, guid: 8a7536fbaf7de57499f0ef8bd88951d0,
-    type: 3}
   scheduleViewer: {fileID: 0}

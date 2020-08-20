@@ -11,13 +11,32 @@ public class ScheduleViewer : MonoBehaviour
     private GameObject[] scheduleImages;
     private GameObject content;
 
-    private int selectedIndex;
+    public int Index
+    {
+        get
+        {
+            int index;
+
+            for (index = 0; index < PlayingManager.TOTAL_SCHEDULE_NUM; index++)
+            {
+                if (scheduleImages[index].GetComponent<Toggle>().isOn)
+                {
+                    break;
+                }
+            }
+
+            return index;
+        }
+    }
 
     private void Start()
     {
         Init();
     }
 
+    /// <summary>
+    /// Schedule Viewer에 필요한 값들을 초기화합니다.
+    /// </summary>
     private void Init()
     {
         content = GameObject.FindGameObjectWithTag("ScheduleViewerContent");
@@ -32,8 +51,20 @@ public class ScheduleViewer : MonoBehaviour
         }
     }
 
-    public void AddSchedule(GameObject scheduleImage)
+    public void Add(int index, string scheduleName)
     {
+        // 잘못된 값이 들어올 경우 아무 일도 일어나지 않게 한다.
+        if (index < 0 || index > PlayingManager.TOTAL_SCHEDULE_NUM)
+        {
+            return;
+        }
+        scheduleImages[index].GetComponentInChildren<Text>().text = scheduleName;
+    }
+
+    public void SetInteractable(int index, bool interactable)
+    {
+        Toggle toggle = scheduleImages[index].GetComponent<Toggle>();
+        toggle.interactable = interactable;
     }
 
     // 스크롤 뷰는 scheduler안에 있는 배열을 통해서 초기화된다. ( 서로 다른 값이 되는 경우를 방지하기 위해서 )
