@@ -26,11 +26,21 @@ public class PlayingManager : MonoBehaviour
     [SerializeField]
     private ScheduleViewer scheduleViewer;
 
+    [SerializeField]
     private GameObject _cnvMenu;
+
+    [SerializeField]
+    private GameObject _cnvSchedule;
+
+    [SerializeField]
+    private GameObject _cnvStudySchedule;
+
+    [SerializeField]
+    private GameObject _cnvScheduleViewer;
     private int selectedScheduleIndex;
     private int todayNum;
 
-    private GameObject cnvMenu
+    private GameObject CnvMenu
     {
         get
         {
@@ -39,6 +49,42 @@ public class PlayingManager : MonoBehaviour
                 _cnvMenu = GameObject.Find("Cnv_Menu");
             }
             return _cnvMenu;
+        }
+    }
+
+    private GameObject CnvSchedule
+    {
+        get
+        {
+            if (_cnvSchedule == null)
+            {
+                _cnvSchedule = GameObject.Find("Cnv_Schedule");
+            }
+            return _cnvSchedule;
+        }
+    }
+
+    private GameObject CnvScheduleViewer
+    {
+        get
+        {
+            if (_cnvScheduleViewer == null)
+            {
+                _cnvScheduleViewer = GameObject.Find("Cnv_ScheduleViewer");
+            }
+            return _cnvScheduleViewer;
+        }
+    }
+
+    private GameObject CnvStudySchedule
+    {
+        get
+        {
+            if (_cnvStudySchedule == null)
+            {
+                _cnvStudySchedule = GameObject.Find("Cnv_StudyViewer");
+            }
+            return _cnvScheduleViewer;
         }
     }
 
@@ -105,11 +151,44 @@ public class PlayingManager : MonoBehaviour
 
     public void HiddenMenuUI()
     {
-        cnvMenu.SetActive(false);
+        if (CnvMenu.activeSelf)
+        {
+            CnvMenu.SetActive(false);
+        }
+
+        if (CnvSchedule.activeSelf)
+        {
+            CnvSchedule.SetActive(false);
+        }
+
+        if (CnvScheduleViewer.activeSelf)
+        {
+            CnvScheduleViewer.SetActive(false);
+        }
+
+        if (CnvStudySchedule.activeSelf)
+        {
+            CnvStudySchedule.SetActive(false);
+        }
     }
 
     public void ShowMenuUI()
     {
-        cnvMenu.SetActive(true);
+        CnvMenu.SetActive(true);
+    }
+
+    public void ShowSchedule()
+    {
+        CnvSchedule.SetActive(true);
+    }
+
+    public void ShowStudySchedule()
+    {
+        CnvSchedule.SetActive(true);
+    }
+
+    public void ShowScheduleViewer()
+    {
+        CnvScheduleViewer.SetActive(true);
     }
 }
